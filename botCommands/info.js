@@ -28,7 +28,8 @@ module.exports = {
                             + "**Developer** : Some1 \n"
                             + "**Bahasa Pemrograman** : Node.js \n"
                             + "**Bahasa yang didukung** : Indonesia \n"
-                            + "**Versi** : v1.1",
+                            + "**Versi** : v1.1 \n\n"
+                            + "**Note** : Aku online sekitar di hari ke 20 atau 500 jam/bulan, mohon maaf ya hehe",
                             inline: false
                 }
             )
