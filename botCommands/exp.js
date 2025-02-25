@@ -27,8 +27,6 @@ async function addExp(userId, expGained, interaction){
             users = {};
         }
     };
-
-    //  && fs.readFileSync(dataPath, 'utf-8').trim() !== ""//
     
     if (!users[userId]){
         const embed = new EmbedBuilder()
