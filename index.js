@@ -95,8 +95,13 @@ for(const file of commandFiles){
     // ngeimpor command file yg udh ketemu
     const command = require(filePath)
     // nyimpen command ke Collection dengan nama command jdi kuncinya
-//  client.commands.set("./botCommands/help.js") <- contohnya
-    client.commands.set(command.data.name, command);
+    //  client.commands.set("./botCommands/help.js") <- contoh
+    if (command.data && command.data.name) {
+        client.commands.set(command.data.name, command);
+    } else {
+        console.error(`❌ Error: command.data tidak ditemukan di ${file}`);
+    }
+
 }
 
 // interactionCreate = jalan tiap ada interaksi dri user (slash, command, tomvol, dsb)
