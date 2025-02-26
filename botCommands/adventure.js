@@ -1,10 +1,10 @@
 // ngebuat perintah /start dri discord.js (diimport)
 const {SlashCommandBuilder, EmbedBuilder} = require('discord.js');
-const { data, execute } = require('./help');
+const { data, execute } = require('./adventure');
 
 module.exports = {
     data: new SlashCommandBuilder()
-    // nama commandnya /help
+    // nama commandnya /adventure
     .setName('adventure')
     // deskripsi commandnya di discord
     .setDescription(
