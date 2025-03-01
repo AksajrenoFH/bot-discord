@@ -1,6 +1,5 @@
 // ngebuat perintah /start dri discord.js (diimport)
 const {SlashCommandBuilder, EmbedBuilder} = require('discord.js');
-const { data, execute } = require('./adventure');
 
 module.exports = {
     data: new SlashCommandBuilder()

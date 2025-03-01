@@ -7,7 +7,7 @@ const { error } = require('console');
 // ngambil alat yg dibutuhin dri discord.js
 // Client = otak bot, ngelakuin semua yg dibutuhin
 // GatewayIntentBits = izin/akses yg dibutuhhin bot buat berinteraksi
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, ChannelType } = require('discord.js');
 
 // client = ngasih tau bot buat jalan/bekerja, dikasih beberapa izin buat ngelakuin sebuah aksi
 const client = new Client({
@@ -30,9 +30,6 @@ client.once('ready', () => {
     console.log(`Bot ${client.user.tag} sudah online!`);
 });
 
-// login ke discord mke token di .env, bot bisa mulai masuk server dan beraksi
-client.login(process.env.TOKEN);
-
 
 
 // INTRO BOT
@@ -47,7 +44,7 @@ client.on('guildCreate', (guild) => {
     const channel = guild.channels.cache.find(
         // ch.type === 0 = mastiin klo channelnya channel teks (0 berarti text channel)
         // permissionsFor(client.user).has('SendMessages') = ngecek botnya punya izin buat ngirim pesan apa kagak, klo gk ada channelnya diskip
-        ch => ch.type === 0 && ch.permissionsFor(client.user).has('SendMessages')
+        ch => ch.type === ChannelType.GuildText && ch.permissionsFor(client.user).has('SendMessages')
     );
     
     // klo semisal gk nemu channel lgi skip/stop biar gk error
@@ -86,22 +83,12 @@ client.commands = new Collection();
 const commandsPath = path.join(__dirname, "botCommands");
 // fs.reddirSync(commandsPath) = ngebaca semua file yang ada di folder botCommands
 // filter(file => file.endsWith('.js')) = ngambil file yang belakangnya .js doang
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./botCommands').filter(file => file.endsWith('.js'));
 
-// ngelooping commandFiles satu persatu
+// ngelooping commandFiles yang ada di folder botCommands satu persatu
 for(const file of commandFiles){
-    // path lengkap dri file command
-    const filePath = path.join(commandsPath, file);
-    // ngeimpor command file yg udh ketemu
-    const command = require(filePath)
-    // nyimpen command ke Collection dengan nama command jdi kuncinya
-    //  client.commands.set("./botCommands/help.js") <- contoh
-    if (command.data && command.data.name) {
-        client.commands.set(command.data.name, command);
-    } else {
-        console.error(`❌ Error: command.data tidak ditemukan di ${file}`);
-    }
-
+    const command = require(`./botCommands/${file}`)
+    client.commands.set(command.data.name, command);
 }
 
 // interactionCreate = jalan tiap ada interaksi dri user (slash, command, tomvol, dsb)
@@ -129,3 +116,8 @@ client.on('interactionCreate', async interaction => {
         });
     }
 });
+
+client.on('error', (err) => console.error('Ada error di client:', err));
+client.on('warn', (info) => console.warn('Peringatan:', info));
+
+client.login(process.env.TOKEN);
