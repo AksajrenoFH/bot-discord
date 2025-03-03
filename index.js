@@ -30,6 +30,9 @@ client.once('ready', () => {
     console.log(`Bot ${client.user.tag} sudah online!`);
 });
 
+// login ke discord mke token di .env, bot bisa mulai masuk server dan beraksi
+client.login(process.env.TOKEN);
+
 
 
 // INTRO BOT
@@ -119,5 +122,3 @@ client.on('interactionCreate', async interaction => {
 
 client.on('error', (err) => console.error('Ada error di client:', err));
 client.on('warn', (info) => console.warn('Peringatan:', info));
-
-client.login(process.env.TOKEN);
