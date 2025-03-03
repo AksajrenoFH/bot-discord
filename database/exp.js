@@ -65,7 +65,15 @@ async function addExp(userId, expGained, interaction){
     }
 
     // ngeupload ke users.json dengan data yang baru
-    fs.writeFileSync(dataPath, JSON.stringify(users, null, 2));
+    try{
+        await fs.promises.writeFile(dataPath, JSON.stringify(users, null, 2));
+    } catch (error){
+        console.error("❌Error saat menulis users.json", error);
+        return await interaction.reply({
+            content: "Duh, maap datanya ada yang error nih <:Frown:1342867827719278673>!",
+            ephemeral: true
+        })
+    }
 
     // ngembaliin data user, kyk name, level, serta exp (bisa dipake nanti pas waktu user mau liat stats dia)
     return user;

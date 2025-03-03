@@ -58,7 +58,15 @@ module.exports = {
             };
 
             // simpen data user ke users.json
-            fs.writeFileSync(dataPath, JSON.stringify(users, null, 2));
+            try{
+                await fs.promises.writeFile(dataPath, JSON.stringify(users, null, 2));
+            } catch(error){
+                console.error("❌Error saat menulis users.json", error);
+                return await interaction.reply({
+                    content: "ALAMAK! Ada error pas nyimpen datanya, coba lagi nanti ya!",
+                    ephemeral: true
+                })
+            }
 
             // kirim ini ke user biar dia tau kalo udh bisa akses /adventure
             const embed = new EmbedBuilder()
